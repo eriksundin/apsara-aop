@@ -1,24 +1,10 @@
-# ApsaraAOP
+Proxy based Aspect Oriented Programming framework for Objective-C
 
-[![Version](http://cocoapod-badges.herokuapp.com/v/ApsaraAOP/badge.png)](http://cocoadocs.org/docsets/ApsaraAOP)
-[![Platform](http://cocoapod-badges.herokuapp.com/p/ApsaraAOP/badge.png)](http://cocoadocs.org/docsets/ApsaraAOP)
-
-## Usage
-
-To run the example project; clone the repo, and run `pod install` from the Project directory first.
-
-## Requirements
-
-## Installation
-
-ApsaraAOP is available through [CocoaPods](http://cocoapods.org), to install
-it simply add the following line to your Podfile:
-
-    pod "ApsaraAOP"
+Note: This framework is under development and should not be considered stable.
 
 ## Author
 
-Erik Sundin, 
+Erik Sundin, erik@eriksundin.se
 
 ## License
 
