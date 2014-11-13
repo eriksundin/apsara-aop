@@ -10,7 +10,7 @@
 #import "APJoinPoint.h"
 #import "APProceedingJoinPoint.h"
 
-typedef id (^ProceedBlock)();
+@class APJoinPointImpl;
 
 /**
  Implementation of a join point.
@@ -18,11 +18,10 @@ typedef id (^ProceedBlock)();
  */
 @interface APJoinPointImpl : NSObject<APProceedingJoinPoint>
 
-/** Used for overriding the proceed method, nesting several around advice. */
-@property (nonatomic, copy) ProceedBlock proceedBlock;
+/** Chain of APAroundAdvice for proceed calls. */ 
+@property (nonatomic, strong) NSArray *aroundAdviceChain;
 
 @property (nonatomic, strong, readonly) NSInvocation *invocation;
-@property (nonatomic, assign, readonly) BOOL invoked;
 
 /**
  Create a new join point given the supplied invocation.

@@ -48,38 +48,17 @@
 
             // Around
             NSArray *aroundAdvice = [adviceTable aroundAdvice];
-
-            id retVal;
-            if ([aroundAdvice count] == 1)
+            [joinpoint setAroundAdviceChain:aroundAdvice];
+            
+            id returnValue = [joinpoint proceed];
+            if (strcmp([invocation.methodSignature methodReturnType], @encode(void)) == 0)
             {
-                retVal = [aroundAdvice[0] around:joinpoint];
+                [NSException raise:NSInternalInconsistencyException
+                            format:@"Proceeding join point provided return value but method %@ does not have one.",
+                 NSStringFromSelector(invocation.selector)];
             }
-            else if ([aroundAdvice count] > 1)
-            {
-                // Walk down the chain of around advice
-                NSEnumerator *enumerator = [aroundAdvice objectEnumerator];
-                retVal = [self adviseJoinPoint:joinpoint
-                                  aroundAdvice:[enumerator nextObject]
-                              adviceEnumerator:enumerator];
-            }
-            else
-            {
-                retVal = [joinpoint proceed];
-            }
-
-            if (retVal)
-            {
-
-                if (strcmp([invocation.methodSignature methodReturnType], @encode(void)) == 0)
-                {
-                    [NSException raise:NSInternalInconsistencyException
-                                format:@"Proceeding join point provided return value but method %@ does not have one.",
-                                       NSStringFromSelector(invocation.selector)];
-                }
-
-                [invocation setReturnValue:&retVal];
-            }
-
+            [invocation setReturnValue:&returnValue];
+            
             // After returning
             for (id<APAfterReturningAdvice> advice in [adviceTable afterReturningAdvice])
             {
@@ -109,25 +88,6 @@
     }
 }
 
-- (id)adviseJoinPoint:(APJoinPointImpl *)joinPoint
-         aroundAdvice:(id<APAroundAdvice>)advice
-     adviceEnumerator:(NSEnumerator *)enumerator
-{
-    id<APAroundAdvice> nextAdvice = enumerator.nextObject;
-    if (nextAdvice)
-    {
-        [joinPoint setProceedBlock:^id
-        {
-
-            return [self adviseJoinPoint:joinPoint
-                            aroundAdvice:nextAdvice
-                        adviceEnumerator:enumerator];
-        }];
-    }
-
-    return [advice around:joinPoint];
-}
-
 - (NSInvocation *)copyOfInvocation:(NSInvocation *)invocation
 {
     NSInvocation *copy = [[invocation class] invocationWithMethodSignature:[invocation methodSignature]];
@@ -141,6 +101,7 @@
         [invocation getArgument:(void *) &buffer atIndex:i];
         [copy setArgument:(void *) &buffer atIndex:i];
     }
+    [copy retainArguments];
     return copy;
 }
 

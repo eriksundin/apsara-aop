@@ -7,11 +7,11 @@
 //
 
 #import "APJoinPointImpl.h"
+#import "APAdvice.h"
 
 @implementation APJoinPointImpl
 {
     NSInvocation *_invocation;
-    BOOL _invoked;
 }
 
 - (id)initWithInvocation:(NSInvocation *)invocation
@@ -19,13 +19,11 @@
     self = [super init];
     if (self)
     {
-
         if (![invocation target])
         {
             [NSException raise:NSInvalidArgumentException
                         format:@"Invocation is missing a target!"];
         }
-
         _invocation = invocation;
     }
     return self;
@@ -63,12 +61,16 @@
 
 - (id)proceed
 {
-    if (self.proceedBlock)
+    if ([_aroundAdviceChain count] > 0)
     {
-        ProceedBlock proceedBlock = self.proceedBlock;
-        self.proceedBlock = nil;
-        BOOL stop;
-        return proceedBlock();
+        // A chain of around advice means that a proceed call within one advice will trigger
+        // the next around advice. Ultimately the first advice in the chain will always decide the
+        // return value.
+        
+        // Pop the first advice, remove it from the chain, and call it.
+        id<APAroundAdvice> aroundAdvice = [_aroundAdviceChain firstObject];
+        _aroundAdviceChain = [_aroundAdviceChain subarrayWithRange:NSMakeRange(1, _aroundAdviceChain.count - 1)];
+        return [aroundAdvice around:self];
     }
     else
     {

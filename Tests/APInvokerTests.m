@@ -16,9 +16,7 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 
 @interface MockAroundAdvice : NSObject<APAroundAdvice>
 
-@property (nonatomic, copy) AroundBlock aroundBlock;
-
-+ (id)withBlock:(id (^)(id<APProceedingJoinPoint> jp))block;
+- (id)initWithIdentifier:(NSString *)identifier;
 
 @end
 
@@ -46,7 +44,7 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
     NSNumber *invocationTarget = @5;
     SEL invocationSelector = @selector(stringValue);
     NSMethodSignature *invocationSignature = [invocationTarget methodSignatureForSelector:invocationSelector];
-    TestInvocation *invocation = [TestInvocation invocationWithMethodSignature:invocationSignature];
+    TestInvocation *invocation = (TestInvocation *) [TestInvocation invocationWithMethodSignature:invocationSignature];
     [invocation setTarget:invocationTarget];
     [invocation setSelector:invocationSelector];
     [invocation retainArguments];
@@ -114,35 +112,12 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 
 - (void)testChainedAroundAdviceCallingWholeChain
 {
-    __block TestInvocation *actualInvocation;
-    __block NSUInteger advicesCalled = 0;
-    MockAroundAdvice *advice1 = [MockAroundAdvice withBlock:^id(id<APProceedingJoinPoint> jp)
-    {
-        // Capture the actual invocation being used. (around advice creates a copy)
-        actualInvocation = (TestInvocation *) [(APJoinPointImpl *)jp invocation];
-
-        advicesCalled++;
-        [jp proceed];
-        return @"1";
-    }];
-    MockAroundAdvice *advice2 = [MockAroundAdvice withBlock:^id(id<APProceedingJoinPoint> jp)
-    {
-        advicesCalled++;
-        [jp proceed];
-        return @"2";
-    }];
-    MockAroundAdvice *advice3 = [MockAroundAdvice withBlock:^id(id<APProceedingJoinPoint> jp)
-    {
-        advicesCalled++;
-        [jp proceed];
-        return @"3";
-    }];
-
+    MockAroundAdvice *advice1 = [[MockAroundAdvice alloc] initWithIdentifier:@"1"];
+    MockAroundAdvice *advice2 = [[MockAroundAdvice alloc] initWithIdentifier:@"2"];
+    MockAroundAdvice *advice3 = [[MockAroundAdvice alloc] initWithIdentifier:@"3"];
+    
     [_invoker invoke:_invocation advice:@[advice1, advice2, advice3]];
-
-    assertThatUnsignedInt(advicesCalled, equalToUnsignedInt(3));
-    assertThatUnsignedInt(actualInvocation.invokeCount, equalToUnsignedInt(1));
-
+    
     NSString *returnValue;
     [_invocation getReturnValue:&returnValue];
     assertThat(returnValue, equalTo(@"1"));
@@ -187,20 +162,25 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 @end
 
 
-@implementation MockAroundAdvice
+@implementation MockAroundAdvice {
+    NSString *_identifier;
+}
 
-+ (id)withBlock:(id (^)(id<APProceedingJoinPoint> jp))block
-{
-    MockAroundAdvice *advice = [[MockAroundAdvice alloc] init];
-    [advice setAroundBlock:block];
-    return advice;
+- (id)initWithIdentifier:(NSString *)identifier {
+    self = [super init];
+    if (self) {
+        _identifier = identifier;
+    }
+    return self;
 }
 
 - (id)around:(id<APProceedingJoinPoint>)joinpoint
 {
-    AroundBlock block = self.aroundBlock;
-    self.aroundBlock = nil;
-    return block(joinpoint);
+    return _identifier;
+}
+
+- (NSString *)description {
+    return _identifier;
 }
 
 @end
@@ -209,8 +189,8 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 
 - (void)invoke
 {
-    [super invoke];
     self.invokeCount++;
+    [super invoke];
 }
 
 @end
