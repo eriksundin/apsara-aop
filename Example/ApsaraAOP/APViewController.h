@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+@class APService;
 @interface APViewController : UIViewController
+
+- (instancetype)initWithService:(APService *)service;
 
 @end

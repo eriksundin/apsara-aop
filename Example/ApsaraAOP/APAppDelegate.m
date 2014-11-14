@@ -7,40 +7,61 @@
 //
 
 #import "APAppDelegate.h"
+#import <ApsaraAOP.h>
+#import "APViewController.h"
+#import "APService.h"
+
+@interface APAppDelegate () <APBeforeAdvice, APAroundAdvice, APAfterAdvice, APAfterThrowingAdvice>
+
+@property (nonatomic, strong) APAspectManager *aspectManager;
+
+@end
+
 
 @implementation APAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    // We want to cut in on calls to -apiCall on the APService class
+    id<APPointcut> pointcut = [APBlockMatchingPointcut pointcutWithBlock:^BOOL(id target, SEL selector) {
+        return [target isKindOfClass:[APService class]] && selector == @selector(apiCall);
+    }];
+    self.aspectManager = [[APAspectManager alloc] init];
+    [self.aspectManager registerAdvice:self pointcut:pointcut];
+    
+    // Proxy the service
+    APService *service = [self.aspectManager advisedProxy:[[APService alloc] init]];
+    APViewController *viewController = [[APViewController alloc] initWithService:service];
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = viewController;
+    [self.window makeKeyAndVisible];
     return YES;
 }
-							
-- (void)applicationWillResignActive:(UIApplication *)application
-{
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+
+#pragma mark - APAdvice
+
+- (void)traceJoinPoint:(id<APJoinPoint>)joinpoint state:(NSString *)state {
+    NSLog(@"[%@] %@ %@", NSStringFromClass([[joinpoint target] class]), state, NSStringFromSelector([joinpoint selector]));
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+- (void)before:(id<APJoinPoint>)joinpoint {
+    [self traceJoinPoint:joinpoint state:@"before"];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+- (id)around:(id<APProceedingJoinPoint>)joinpoint {
+    [self traceJoinPoint:joinpoint state:@"around before proceed"];
+    id retVal = [joinpoint proceed];
+    [self traceJoinPoint:joinpoint state:@"around after proceed"];
+    return retVal;
 }
 
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+- (void)after:(id<APJoinPoint>)joinpoint {
+    [self traceJoinPoint:joinpoint state:@"after"];
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+- (void)afterThrowing:(id<APJoinPoint>)joinpoint exception:(NSException *)exception {
+    [self traceJoinPoint:joinpoint state:[NSString stringWithFormat:@"throwing %@", [exception name]]];
 }
 
 @end
