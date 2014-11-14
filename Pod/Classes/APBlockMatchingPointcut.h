@@ -10,12 +10,13 @@
 #import "APPointcut.h"
 
 /**
- A pointcut is used to match join points.
+ Block-based implementation of a APPointcut.
  */
 @interface APBlockMatchingPointcut : NSObject<APPointcut>
 
 /**
 * Create a new pointcut using an evaluation block.
+* Block should return YES if the pointcut applies for invoking selector on target.  
 */
 + (APBlockMatchingPointcut *)pointcutWithBlock:(BOOL (^)(id target, SEL selector))block;
 

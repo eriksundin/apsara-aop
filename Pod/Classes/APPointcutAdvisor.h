@@ -6,6 +6,9 @@
 
 @protocol APAdvice, APPointcut;
 
+/**
+ A tuple that pairs an advice with a pointcut.
+ */
 @interface APPointcutAdvisor : NSObject
 {
     id<APAdvice> _advice;

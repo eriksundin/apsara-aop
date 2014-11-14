@@ -15,6 +15,7 @@
 		46A3D4D51A1608AB00074FF9 /* APInvokerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A3D4C91A14F8A000074FF9 /* APInvokerTests.m */; };
 		46A3D4D91A160ACF00074FF9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46A3D4D71A160ACF00074FF9 /* InfoPlist.strings */; };
 		46A3D4DC1A16430700074FF9 /* APService.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A3D4DB1A16430700074FF9 /* APService.m */; };
+		46A3D4E21A16482B00074FF9 /* APLoggingAdvice.m in Sources */ = {isa = PBXBuildFile; fileRef = 46A3D4E11A16482B00074FF9 /* APLoggingAdvice.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -53,6 +54,8 @@
 		46A3D4D81A160ACF00074FF9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
 		46A3D4DA1A16430700074FF9 /* APService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APService.h; sourceTree = "<group>"; };
 		46A3D4DB1A16430700074FF9 /* APService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APService.m; sourceTree = "<group>"; };
+		46A3D4E01A16482B00074FF9 /* APLoggingAdvice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APLoggingAdvice.h; sourceTree = "<group>"; };
+		46A3D4E11A16482B00074FF9 /* APLoggingAdvice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APLoggingAdvice.m; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ApsaraAOP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ApsaraAOP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -155,14 +158,16 @@
 		6003F593195388D20070C39A /* ApsaraAOP */ = {
 			isa = PBXGroup;
 			children = (
+				46A3D4E01A16482B00074FF9 /* APLoggingAdvice.h */,
+				46A3D4E11A16482B00074FF9 /* APLoggingAdvice.m */,
+				46A3D4DA1A16430700074FF9 /* APService.h */,
+				46A3D4DB1A16430700074FF9 /* APService.m */,
 				6003F59C195388D20070C39A /* APAppDelegate.h */,
 				6003F59D195388D20070C39A /* APAppDelegate.m */,
 				6003F5A5195388D20070C39A /* APViewController.h */,
 				6003F5A6195388D20070C39A /* APViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
-				46A3D4DA1A16430700074FF9 /* APService.h */,
-				46A3D4DB1A16430700074FF9 /* APService.m */,
 			);
 			path = ApsaraAOP;
 			sourceTree = "<group>";
@@ -379,6 +384,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46A3D4E21A16482B00074FF9 /* APLoggingAdvice.m in Sources */,
 				46A3D4DC1A16430700074FF9 /* APService.m in Sources */,
 				6003F59E195388D20070C39A /* APAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* APViewController.m in Sources */,

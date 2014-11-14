@@ -30,7 +30,7 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setBackgroundColor:[UIColor cyanColor]];
+    [button setBackgroundColor:[UIColor blueColor]];
     [button setTitle:@"Service Call" forState:UIControlStateNormal];
     [button setFrame:CGRectMake(0, 0, 200.0, 44.0)];
     [button setCenter:self.view.center];
