@@ -42,7 +42,7 @@ Preview
     
     id returnValue = [joinpoint proceed];
     
-    // .. Do some pre processing
+    // .. Do some post processing
     
     return returnValue;
 }
