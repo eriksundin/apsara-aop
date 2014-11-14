@@ -1,13 +1,19 @@
 PODS:
+  - ApsaraAOP (0.1.0)
   - OCHamcrest (4.0.1)
   - OCMockito (1.3.1):
     - OCHamcrest (~> 4.0)
 
 DEPENDENCIES:
-  - OCHamcrest (~> 4.0)
-  - OCMockito (~> 1.3)
+  - ApsaraAOP (from `../`)
+  - OCMockito (~> 1.0)
+
+EXTERNAL SOURCES:
+  ApsaraAOP:
+    :path: ../
 
 SPEC CHECKSUMS:
+  ApsaraAOP: 3988451f7ab73acec4556550ec2991e93bd13ff2
   OCHamcrest: b464725bbb48d0f1cd9c6f4ec3cb35fe0c4f2b94
   OCMockito: 57b8c4bb54ff3a4a14eb2174f9e57faf9f56efb6
 

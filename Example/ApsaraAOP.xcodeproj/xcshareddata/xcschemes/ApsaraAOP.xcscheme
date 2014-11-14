@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0610"
+   LastUpgradeVersion = "0600"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "463DD5A41868147000E3CD98"
-               BuildableName = "OS X Tests.xctest"
-               BlueprintName = "OS X Tests"
-               ReferencedContainer = "container:ApsaraAOPTests.xcodeproj">
+               BlueprintIdentifier = "6003F589195388D20070C39A"
+               BuildableName = "ApsaraAOP.app"
+               BlueprintName = "ApsaraAOP"
+               ReferencedContainer = "container:ApsaraAOP.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,13 +32,22 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "463DD5A41868147000E3CD98"
-               BuildableName = "OS X Tests.xctest"
-               BlueprintName = "OS X Tests"
-               ReferencedContainer = "container:ApsaraAOPTests.xcodeproj">
+               BlueprintIdentifier = "6003F5AD195388D20070C39A"
+               BuildableName = "Tests.xctest"
+               BlueprintName = "Tests"
+               ReferencedContainer = "container:ApsaraAOP.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6003F589195388D20070C39A"
+            BuildableName = "ApsaraAOP.app"
+            BlueprintName = "ApsaraAOP"
+            ReferencedContainer = "container:ApsaraAOP.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </TestAction>
    <LaunchAction
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
@@ -49,15 +58,15 @@
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "463DD5A41868147000E3CD98"
-            BuildableName = "OS X Tests.xctest"
-            BlueprintName = "OS X Tests"
-            ReferencedContainer = "container:ApsaraAOPTests.xcodeproj">
+            BlueprintIdentifier = "6003F589195388D20070C39A"
+            BuildableName = "ApsaraAOP.app"
+            BlueprintName = "ApsaraAOP"
+            ReferencedContainer = "container:ApsaraAOP.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -67,6 +76,15 @@
       useCustomWorkingDirectory = "NO"
       buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "6003F589195388D20070C39A"
+            BuildableName = "ApsaraAOP.app"
+            BlueprintName = "ApsaraAOP"
+            ReferencedContainer = "container:ApsaraAOP.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

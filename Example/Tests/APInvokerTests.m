@@ -74,8 +74,8 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 
     [_invoker invoke:_invocation advice:@[advice1, advice2]];
 
-    [verifyCount(advice1, times(1)) before:anything()];
-    [verifyCount(advice2, times(1)) before:anything()];
+    [MKTVerifyCount(advice1, times(1)) before:anything()];
+    [MKTVerifyCount(advice2, times(1)) before:anything()];
 }
 
 - (void)testAroundAdvice
@@ -85,7 +85,7 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
     [given([advice around:anything()]) willReturn:@"1"];
     [_invoker invoke:_invocation advice:@[advice]];
 
-    [verifyCount(advice, times(1)) around:anything()];
+    [MKTVerifyCount(advice, times(1)) around:anything()];
 
     NSString *returnValue;
     [_invocation getReturnValue:&returnValue];
@@ -102,8 +102,8 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 
     [_invoker invoke:_invocation advice:@[advice1, advice2]];
 
-    [verifyCount(advice1, times(1)) around:anything()];
-    [verifyCount(advice2, times(0)) around:anything()];
+    [MKTVerifyCount(advice1, times(1)) around:anything()];
+    [MKTVerifyCount(advice2, times(0)) around:anything()];
 
     NSString *returnValue;
     [_invocation getReturnValue:&returnValue];
@@ -130,8 +130,8 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 
     [_invoker invoke:_invocation advice:@[advice1, advice2]];
 
-    [verifyCount(advice1, times(1)) afterReturning:anything()];
-    [verifyCount(advice2, times(1)) afterReturning:anything()];
+    [MKTVerifyCount(advice1, times(1)) afterReturning:anything()];
+    [MKTVerifyCount(advice2, times(1)) afterReturning:anything()];
 }
 
 - (void)testAfterAdviceCalled
@@ -141,8 +141,8 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
 
     [_invoker invoke:_invocation advice:@[advice1, advice2]];
 
-    [verifyCount(advice1, times(1)) after:anything()];
-    [verifyCount(advice2, times(1)) after:anything()];
+    [MKTVerifyCount(advice1, times(1)) after:anything()];
+    [MKTVerifyCount(advice2, times(1)) after:anything()];
 }
 
 - (void)testAfterThrowingAdviceCalled
@@ -150,12 +150,15 @@ typedef id (^AroundBlock)(id<APProceedingJoinPoint> jp);
     id<APAdvice> advice1 = mockProtocol(@protocol(APAfterThrowingAdvice));
     id<APAdvice> advice2 = mockProtocol(@protocol(APAfterThrowingAdvice));
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wundeclared-selector"
     [_invocation setSelector:@selector(magicValue)];
-
+#pragma clang diagnostic pop
+    
     [_invoker invoke:_invocation advice:@[advice1, advice2]];
 
-    [verifyCount(advice1, times(1)) afterThrowing:anything() exception:anything()];
-    [verifyCount(advice2, times(1)) afterThrowing:anything() exception:anything()];
+    [MKTVerifyCount(advice1, times(1)) afterThrowing:anything() exception:anything()];
+    [MKTVerifyCount(advice2, times(1)) afterThrowing:anything() exception:anything()];
 }
 
 

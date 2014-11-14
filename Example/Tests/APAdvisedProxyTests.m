@@ -69,7 +69,7 @@
                                                            invoker:_invokerMock];
     [proxy forwardInvocation:_invocation];
 
-    [verify(_invokerMock) invoke:_invocation advice:@[_adviceMock]];
+    [MKTVerify(_invokerMock) invoke:_invocation advice:@[_adviceMock]];
 }
 
 - (void)testAdvisorsWithoutMatchingPointcutSortedOut
@@ -84,7 +84,7 @@
                                                            invoker:_invokerMock];
     [proxy forwardInvocation:_invocation];
 
-    [verify(_invokerMock) invoke:_invocation advice:@[_adviceMock]];
+    [MKTVerify(_invokerMock) invoke:_invocation advice:@[_adviceMock]];
 }
 
 @end
